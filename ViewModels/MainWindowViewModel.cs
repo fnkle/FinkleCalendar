@@ -1,4 +1,5 @@
 ﻿using CalendarApp.Models;
+using CalendarApp.Utilies;
 using CalendarApp.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,13 @@ namespace CalendarApp
 {
 	public class MainWindowViewModel : BaseViewModel
 	{
+		private readonly ICalendarEventRepository _calendarEventRepository;
 		private DateTime _currentDate = DateTime.Now;
 		private string _currentMonthYear;
 
-		public MainWindowViewModel()
+		public MainWindowViewModel(ICalendarEventRepository calendarEventRepository)
 		{
+			_calendarEventRepository = calendarEventRepository;
 			Update();
 		}
 
@@ -44,18 +47,13 @@ namespace CalendarApp
 			Cells.Clear();
 			var numDays = DateTime.DaysInMonth(_currentDate.Year, _currentDate.Month);
 
+			var eventsInMonth = _calendarEventRepository.GetEventsInMonth(_currentDate.Month, _currentDate.Year);
 			for (int i = 0; i < numDays; i++)
 			{
 				var day = new Day();
-				var calendarEvent = new CalendarEvent();
-				calendarEvent.Title = "test";
-				day.Events.Add(calendarEvent);
-
-				var calendarEvent2 = new CalendarEvent();
-				calendarEvent2.Title = "test" + i;
-				day.Events.Add(calendarEvent2);
-				var vm = new DayViewModel(day);
-				Cells.Add(vm);
+				var events = eventsInMonth.Where(calendarEvent => calendarEvent.OnDay(i, _currentDate.Month, _currentDate.Year)).ToList();
+				day.Events.AddRange(events);
+				Cells.Add(new DayViewModel(day));
 			}
 
 			CurrentMonthYear = _currentDate.ToString("MMMM yyyy");

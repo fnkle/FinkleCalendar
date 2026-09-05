@@ -7,17 +7,37 @@ namespace CalendarApp.Models
 {
 	public class CalendarEvent
 	{
+		private Guid _id;
+		private string _title;
 		private string _description;
 		private DateTime _endTime;
-		private Guid _id;
 		private DateTime _startTime;
-		private string _title;
+
+		public CalendarEvent(DateTime startTime, DateTime endTime)
+		{
+			_id = Guid.NewGuid();
+			_startTime = startTime;
+			_endTime = endTime;
+		}
 
 		public Guid Id => _id;
 		public string Title { get => _title; set => _title = value; }
-		public string Description => _description;
-		public DateTime StartTime => _startTime;
-		public DateTime EndTime => _endTime;
+		public string Description { get => _description; set => _description = value; }
+		public DateTime StartTime { get => _startTime; set => _startTime = value; }
+		public DateTime EndTime { get => _endTime; set => _endTime = value; }
 		public TimeSpan Duration => _endTime.Subtract(_startTime);
+
+		public bool InMonth(int month, int year)
+		{
+			return (_startTime.Month <= month && _endTime.Month >= month) &&
+					   (_startTime.Year <= year && _endTime.Year >= year);
+		}
+
+		public bool OnDay(int day, int month, int year)
+		{
+			return (_startTime.Month <= month && _endTime.Month >= month) &&
+					   (_startTime.Year <= year && _endTime.Year >= year) &&
+					   (_startTime.Day <= day && _endTime.Day >= day);
+		}
 	}
 }
