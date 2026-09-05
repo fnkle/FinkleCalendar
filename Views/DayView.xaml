@@ -21,9 +21,7 @@
 				</ItemsControl.ItemsPanel>
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<Border BorderBrush="Blue" BorderThickness="2" Padding="5">
-							<TextBlock Text="{Binding Title}" />
-						</Border>
+						<TextBlock Text="{Binding Title}" MouseDown="TextBlock_MouseDown" Foreground="Black" Background="LightBlue" TextWrapping="Wrap" VerticalAlignment="Top" />
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>

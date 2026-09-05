@@ -12,7 +12,7 @@ namespace CalendarApp.Utilies
 
 		public CalendarEventRepository()
 		{
-			var calendarEvent = new CalendarEvent(DateTime.Now, DateTime.Now.AddHours(3));
+			var calendarEvent = new CalendarEvent(DateTime.Now, DateTime.Now.AddDays(3));
 			calendarEvent.Title = "test";
 
 			AddEvent(calendarEvent);

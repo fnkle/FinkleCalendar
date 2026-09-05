@@ -1,5 +1,4 @@
-﻿using CalendarApp.Models;
-using CalendarApp.ViewModels;
+﻿using CalendarApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,21 +9,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace CalendarApp.Views
 {
 	/// <summary>
-	/// Interaction logic for DayView.xaml
+	/// Interaction logic for EventEditorView.xaml
 	/// </summary>
-	public partial class DayView : UserControl
+	public partial class EventEditorView : Window
 	{
-		public DayView()
+		public EventEditorView(EventEditorViewModel vm)
 		{
 			InitializeComponent();
+			DataContext = vm;
 		}
-
-		private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e) => ((DayViewModel)DataContext).CalendarEventClicked(sender, e);
 	}
 }
