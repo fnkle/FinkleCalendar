@@ -6,8 +6,8 @@ namespace CalendarApp.Models
 {
 	public class Day
 	{
-		private List<DayEvent> _events = new List<DayEvent>();
+		private List<CalendarEvent> _events = new List<CalendarEvent>();
 
-		public List<DayEvent> Events => _events;
+		public List<CalendarEvent> Events => _events;
 	}
 }

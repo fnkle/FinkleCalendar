@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace CalendarApp.Models
 {
-	public class DayEvent
+	public class CalendarEvent
 	{
 		private string _description;
 		private DateTime _endTime;

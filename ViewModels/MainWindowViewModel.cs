@@ -47,13 +47,13 @@ namespace CalendarApp
 			for (int i = 0; i < numDays; i++)
 			{
 				var day = new Day();
-				var dayEvent = new DayEvent();
-				dayEvent.Title = "test";
-				day.Events.Add(dayEvent);
+				var calendarEvent = new CalendarEvent();
+				calendarEvent.Title = "test";
+				day.Events.Add(calendarEvent);
 
-				var dayEvent2 = new DayEvent();
-				dayEvent2.Title = "test" + i;
-				day.Events.Add(dayEvent2);
+				var calendarEvent2 = new CalendarEvent();
+				calendarEvent2.Title = "test" + i;
+				day.Events.Add(calendarEvent2);
 				var vm = new DayViewModel(day);
 				Cells.Add(vm);
 			}

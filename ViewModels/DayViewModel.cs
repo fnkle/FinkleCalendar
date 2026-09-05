@@ -14,9 +14,9 @@ namespace CalendarApp.ViewModels
 		public DayViewModel(Day day)
 		{
 			_day = day;
-			DayEvents = new ObservableCollection<DayEvent>(day.Events);
+			CalendarEvents = new ObservableCollection<CalendarEvent>(day.Events);
 		}
 
-		public ObservableCollection<DayEvent> DayEvents { get; set; }
+		public ObservableCollection<CalendarEvent> CalendarEvents { get; set; }
 	}
 }

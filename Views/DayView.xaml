@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
 	<StackPanel>
-		<ItemsControl ItemsSource="{Binding DayEvents}">
+		<ItemsControl ItemsSource="{Binding CalendarEvents}">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
 					<UniformGrid Columns="1" Rows="{Binding RowCount}" />
