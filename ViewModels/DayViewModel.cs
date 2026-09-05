@@ -18,5 +18,7 @@ namespace CalendarApp.ViewModels
 		}
 
 		public ObservableCollection<CalendarEvent> CalendarEvents { get; set; }
+
+		public string DayNumber => _day.DayNumber;
 	}
 }

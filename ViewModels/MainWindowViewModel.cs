@@ -18,6 +18,7 @@ namespace CalendarApp
 		public MainWindowViewModel(ICalendarEventRepository calendarEventRepository)
 		{
 			_calendarEventRepository = calendarEventRepository;
+			_currentMonthYear = string.Empty;
 			Update();
 		}
 
@@ -50,7 +51,7 @@ namespace CalendarApp
 			var eventsInMonth = _calendarEventRepository.GetEventsInMonth(_currentDate.Month, _currentDate.Year);
 			for (int i = 0; i < numDays; i++)
 			{
-				var day = new Day();
+				var day = new Day(i);
 				var events = eventsInMonth.Where(calendarEvent => calendarEvent.OnDay(i, _currentDate.Month, _currentDate.Year)).ToList();
 				day.Events.AddRange(events);
 				Cells.Add(new DayViewModel(day));
