@@ -4,8 +4,10 @@ using System.Text;
 
 namespace CalendarApp.Models
 {
-	internal class Day
+	public class Day
 	{
-		private List<DayEvent> events;
+		private List<DayEvent> _events = new List<DayEvent>();
+
+		public List<DayEvent> Events => _events;
 	}
 }

@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace CalendarApp.Models
 {
-	internal class DayEvent
+	public class DayEvent
 	{
 		private string _description;
 		private DateTime _endTime;
@@ -14,7 +14,7 @@ namespace CalendarApp.Models
 		private string _title;
 
 		public Guid Id => _id;
-		public string Title => _title;
+		public string Title { get => _title; set => _title = value; }
 		public string Description => _description;
 		public DateTime StartTime => _startTime;
 		public DateTime EndTime => _endTime;

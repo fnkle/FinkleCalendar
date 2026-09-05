@@ -4,7 +4,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace CalendarApp {
+namespace CalendarApp
+{
 	public class BaseViewModel : INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler? PropertyChanged;
