@@ -16,12 +16,12 @@
 			<ItemsControl ItemsSource="{Binding CalendarEvents}" Grid.Row="1">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
-						<UniformGrid Columns="1" Rows="{Binding RowCount}" />
+						<UniformGrid Columns="1" />
 					</ItemsPanelTemplate>
 				</ItemsControl.ItemsPanel>
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding Title}" MouseDown="TextBlock_MouseDown" Foreground="Black" Background="LightBlue" TextWrapping="Wrap" VerticalAlignment="Top" />
+						<local:EventView></local:EventView>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>

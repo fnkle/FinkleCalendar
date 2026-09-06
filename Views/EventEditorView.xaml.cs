@@ -23,5 +23,11 @@ namespace CalendarApp.Views
 			InitializeComponent();
 			DataContext = vm;
 		}
+
+		protected override void OnClosed(EventArgs e)
+		{
+			((EventEditorViewModel)DataContext).SaveChanges();
+			base.OnClosed(e);
+		}
 	}
 }

@@ -15,16 +15,14 @@ using System.Windows.Shapes;
 
 namespace CalendarApp.Views
 {
-	/// <summary>
-	/// Interaction logic for DayView.xaml
-	/// </summary>
-	public partial class DayView : UserControl
-	{
-		public DayView()
-		{
-			InitializeComponent();
-		}
-
-		private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e) => ((DayViewModel)DataContext).CalendarEventClicked(sender, e);
-	}
+    /// <summary>
+    /// Interaction logic for DayView.xaml
+    /// </summary>
+    public partial class DayView : UserControl
+    {
+        public DayView()
+        {
+            InitializeComponent();
+        }
+    }
 }
