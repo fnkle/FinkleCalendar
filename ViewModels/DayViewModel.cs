@@ -23,12 +23,29 @@ namespace CalendarApp.ViewModels
 
             foreach (var calendarEvent in _day.Events)
             {
-                CalendarEvents.Add(new EventViewModel(calendarEvent));
+                var eventVm = new EventViewModel(calendarEvent);
+                eventVm.PropertyChanged += OnEventUpdated;
+                CalendarEvents.Add(eventVm);
             }
         }
 
+        public event EventHandler<EventViewModel, string> EventChanged;
+
         public ObservableCollection<EventViewModel> CalendarEvents { get; set; }
 
-        public string DayNumber => _day.DayNumber;
+        public string DayNumber => _day.DayNumber.ToString();
+
+        public Day Day => _day;
+
+        private void OnEventUpdated(object? sender, PropertyChangedEventArgs e)
+        {
+            if (!(sender is EventViewModel eventVm))
+                return;
+
+            if (e.PropertyName == nameof(EventViewModel.StartTime) || e.PropertyName == nameof(EventViewModel.EndTime))
+            {
+                EventChanged.Invoke(eventVm, e.PropertyName);
+            }
+        }
     }
 }

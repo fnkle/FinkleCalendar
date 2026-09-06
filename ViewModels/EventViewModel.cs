@@ -53,8 +53,10 @@ namespace CalendarApp.ViewModels
 
             set
             {
-                if (SetProperty(ref _startTime, value))
-                    _calendarEvent.StartTime = value;
+                // Temporary as need to update model before events
+                // need a better was for this in future
+                _calendarEvent.StartTime = value;
+                SetProperty(ref _startTime, value);
             }
         }
 
@@ -64,10 +66,14 @@ namespace CalendarApp.ViewModels
 
             set
             {
-                if (SetProperty(ref _endTime, value))
-                    _calendarEvent.EndTime = value;
+                // Temporary as need to update model before events
+                // need a better was for this in future
+                _calendarEvent.EndTime = value;
+                SetProperty(ref _endTime, value);
             }
         }
+
+        public CalendarEvent CalendarEvent { get => _calendarEvent; }
 
         public void CalendarEventClicked(EventViewModel sender, MouseButtonEventArgs e)
         {
