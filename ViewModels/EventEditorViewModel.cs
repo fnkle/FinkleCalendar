@@ -25,6 +25,9 @@ namespace CalendarApp.ViewModels
             _description = _eventViewModel.Description;
             _startTime = _eventViewModel.StartTime;
             _endTime = _eventViewModel.EndTime;
+
+            SaveCommand = new AppCommand(SaveChanges);
+            CancelCommand = new AppCommand(Cancel);
         }
 
         public string Title { get => _title; set => SetProperty(ref _title, value); }
@@ -32,8 +35,8 @@ namespace CalendarApp.ViewModels
         public DateTime StartTime { get => _startTime; set => SetProperty(ref _startTime, value); }
         public DateTime EndTime { get => _endTime; set => SetProperty(ref _endTime, value); }
 
-        public AppCommand SaveCommand => new AppCommand(SaveChanges);
-        public AppCommand CancelCommand => new AppCommand(Cancel);
+        public AppCommand SaveCommand { get; }
+        public AppCommand CancelCommand { get; }
 
         internal void SaveChanges()
         {

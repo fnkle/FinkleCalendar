@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
-
-namespace CalendarApp.Models
+﻿namespace CalendarApp.Models
 {
     public class CalendarEvent
     {

@@ -21,7 +21,6 @@ namespace CalendarApp
                 services.AddSingleton<IWindowService, WindowService>();
 
                 services.AddSingleton<MainWindowViewModel>();
-                services.AddScoped<EventEditorViewModel>();
 
                 services.AddTransient<MainWindow>();
             }).Build();

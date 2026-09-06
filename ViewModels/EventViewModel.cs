@@ -26,6 +26,8 @@ namespace CalendarApp.ViewModels
             _description = _calendarEvent.Description;
             _startTime = _calendarEvent.StartTime;
             _endTime = _calendarEvent.EndTime;
+
+            EventClickedCommand = new AppCommand(() => CalendarEventClicked(this));
         }
 
         public string Title
@@ -76,7 +78,7 @@ namespace CalendarApp.ViewModels
             }
         }
 
-        public AppCommand EventClickedCommand => new AppCommand(() => CalendarEventClicked(this));
+        public AppCommand EventClickedCommand { get; }
 
         public CalendarEvent CalendarEvent { get => _calendarEvent; }
 

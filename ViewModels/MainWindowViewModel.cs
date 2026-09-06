@@ -1,4 +1,5 @@
-﻿using CalendarApp.Models;
+﻿using CalendarApp.Events;
+using CalendarApp.Models;
 using CalendarApp.Utilies;
 using CalendarApp.ViewModels;
 using System;
@@ -14,22 +15,23 @@ namespace CalendarApp
         private readonly ICalendarEventRepository _calendarEventRepository;
         private readonly IWindowService _windowService;
         private DateTime _currentDate = DateTime.Now;
-        private string _currentMonthYear;
 
         public MainWindowViewModel(ICalendarEventRepository calendarEventRepository, IWindowService windowService)
         {
             _calendarEventRepository = calendarEventRepository;
             _windowService = windowService;
-            _currentMonthYear = string.Empty;
             Update();
+
+            NextMonthCommand = new AppCommand(NextMonth);
+            PrevMonthCommand = new AppCommand(PrevMonth);
         }
 
         public ObservableCollection<DayViewModel> Cells { get; } = new ObservableCollection<DayViewModel>();
-        public String CurrentMonthYear { get => _currentMonthYear; set => SetProperty(ref _currentMonthYear, _currentDate.ToString("MMMM yyyy")); }
+        public String CurrentMonthYear => _currentDate.ToString("MMMM yyyy");
 
-        public AppCommand NextMonthCommand => new AppCommand(NextMonth);
+        public AppCommand NextMonthCommand { get; }
 
-        public AppCommand PrevMonthCommand => new AppCommand(PrevMonth);
+        public AppCommand PrevMonthCommand { get; }
 
         public int ColumnCount { get; }
 
@@ -61,7 +63,7 @@ namespace CalendarApp
                 Cells.Add(vm);
             }
 
-            CurrentMonthYear = _currentDate.ToString("MMMM yyyy");
+            OnPropertyChanged(nameof(CurrentMonthYear));
         }
 
         private void ClearCells()
@@ -73,10 +75,11 @@ namespace CalendarApp
             Cells.Clear();
         }
 
-        private void OnEventUpdated(EventViewModel eventVm, string prop)
+        private void OnEventUpdated(object? sender, EventUpdatedEventArgs e)
         {
+            var eventVm = e.Event;
             var calendarEvent = eventVm.CalendarEvent;
-            switch (prop)
+            switch (e.PropertyName)
             {
                 case nameof(EventViewModel.EndTime):
                 case nameof(EventViewModel.StartTime):

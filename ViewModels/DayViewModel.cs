@@ -1,4 +1,5 @@
-﻿using CalendarApp.Models;
+﻿using CalendarApp.Events;
+using CalendarApp.Models;
 using CalendarApp.Utilies;
 using CalendarApp.Views;
 using System;
@@ -32,7 +33,7 @@ namespace CalendarApp.ViewModels
             }
         }
 
-        public event EventHandler<EventViewModel, string> EventChanged;
+        public event EventHandler<EventUpdatedEventArgs> EventChanged;
 
         public ObservableCollection<EventViewModel> CalendarEvents { get; set; }
 
@@ -47,7 +48,7 @@ namespace CalendarApp.ViewModels
 
             if (e.PropertyName == nameof(EventViewModel.StartTime) || e.PropertyName == nameof(EventViewModel.EndTime))
             {
-                EventChanged.Invoke(eventVm, e.PropertyName);
+                EventChanged.Invoke(eventVm, new EventUpdatedEventArgs { Event = eventVm, PropertyName = e.PropertyName });
             }
         }
     }
