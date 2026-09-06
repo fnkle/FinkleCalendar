@@ -6,5 +6,9 @@
              xmlns:local="clr-namespace:CalendarApp.Views" xmlns:viewmodels="clr-namespace:CalendarApp.ViewModels"
 			 mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-	<TextBlock Text="{Binding Title }" MouseDown="{Binding EventClickedCommand}" Foreground="Black" Background="LightBlue" TextWrapping="Wrap" VerticalAlignment="Top" />
+	<TextBlock Text="{Binding Title }" Foreground="Black" Background="LightBlue" TextWrapping="Wrap" VerticalAlignment="Top">
+		<TextBlock.InputBindings>
+			<MouseBinding Gesture="LeftClick" Command="{Binding EventClickedCommand}" />
+		</TextBlock.InputBindings>
+	</TextBlock>
 </UserControl>

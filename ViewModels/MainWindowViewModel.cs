@@ -12,12 +12,14 @@ namespace CalendarApp
     public class MainWindowViewModel : BaseViewModel
     {
         private readonly ICalendarEventRepository _calendarEventRepository;
+        private readonly IWindowService _windowService;
         private DateTime _currentDate = DateTime.Now;
         private string _currentMonthYear;
 
-        public MainWindowViewModel(ICalendarEventRepository calendarEventRepository)
+        public MainWindowViewModel(ICalendarEventRepository calendarEventRepository, IWindowService windowService)
         {
             _calendarEventRepository = calendarEventRepository;
+            _windowService = windowService;
             _currentMonthYear = string.Empty;
             Update();
         }
@@ -54,7 +56,7 @@ namespace CalendarApp
                 var day = new Day(i + 1, _currentDate.Month, _currentDate.Year);
                 var events = eventsInMonth.Where(calendarEvent => calendarEvent.OnDay(i + 1, _currentDate.Month, _currentDate.Year)).ToList();
                 day.Events.AddRange(events);
-                var vm = new DayViewModel(day);
+                var vm = new DayViewModel(day, _windowService);
                 vm.EventChanged += OnEventUpdated;
                 Cells.Add(vm);
             }

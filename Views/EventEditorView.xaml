@@ -13,6 +13,7 @@
 			<RowDefinition></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -27,5 +28,10 @@
 		<TextBox TextWrapping="Wrap" Text="{Binding Description}" Grid.Row="1" Grid.Column="1" Margin="0, 0, 5, 20" BorderBrush="Black" />
 		<xctk:DateTimePicker Grid.Row="2" Value="{Binding StartTime}" Grid.Column="1" Margin="0, 0, 5, 20"></xctk:DateTimePicker>
 		<xctk:DateTimePicker Grid.Row="3" Value="{Binding EndTime}" Grid.Column="1" Margin="0, 0, 5, 20"></xctk:DateTimePicker>
+
+		<StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+			<Button Content="Save" Command="{Binding SaveCommand}" Margin="0, 0, 5, 0" />
+			<Button Content="Cancel" Command="{Binding CancelCommand}" />
+		</StackPanel>
 	</Grid>
 </Window>

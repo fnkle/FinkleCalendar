@@ -1,4 +1,5 @@
 ﻿using CalendarApp.Models;
+using CalendarApp.Utilies;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,8 +8,8 @@ namespace CalendarApp.ViewModels
 {
     public class EventEditorViewModel : BaseViewModel
     {
+        private readonly IWindowService _windowService;
         private EventViewModel _eventViewModel;
-
         private string _title;
         private string _description;
         private DateTime _startTime;
@@ -16,9 +17,10 @@ namespace CalendarApp.ViewModels
 
         private bool _unsavedData;
 
-        public EventEditorViewModel(EventViewModel vm)
+        public EventEditorViewModel(EventViewModel vm, IWindowService windowService)
         {
             _eventViewModel = vm;
+            _windowService = windowService;
             _title = _eventViewModel.Title;
             _description = _eventViewModel.Description;
             _startTime = _eventViewModel.StartTime;
@@ -30,7 +32,9 @@ namespace CalendarApp.ViewModels
         public DateTime StartTime { get => _startTime; set => SetProperty(ref _startTime, value); }
         public DateTime EndTime { get => _endTime; set => SetProperty(ref _endTime, value); }
 
-        // Only update the eventviewmodel on close which goes through to model
+        public AppCommand SaveCommand => new AppCommand(SaveChanges);
+        public AppCommand CancelCommand => new AppCommand(Cancel);
+
         internal void SaveChanges()
         {
             _eventViewModel.Title = _title;
@@ -38,5 +42,8 @@ namespace CalendarApp.ViewModels
             _eventViewModel.StartTime = _startTime;
             _eventViewModel.EndTime = _endTime;
         }
+
+        // todo : add a check for unsaved data and prompt user to save changes before closing the window
+        private void Cancel() => _windowService.CloseEditorWindow(_eventViewModel);
     }
 }

@@ -13,21 +13,15 @@ using System.Windows.Shapes;
 
 namespace CalendarApp.Views
 {
-	/// <summary>
-	/// Interaction logic for EventEditorView.xaml
-	/// </summary>
-	public partial class EventEditorView : Window
-	{
-		public EventEditorView(EventEditorViewModel vm)
-		{
-			InitializeComponent();
-			DataContext = vm;
-		}
-
-		protected override void OnClosed(EventArgs e)
-		{
-			((EventEditorViewModel)DataContext).SaveChanges();
-			base.OnClosed(e);
-		}
-	}
+    /// <summary>
+    /// Interaction logic for EventEditorView.xaml
+    /// </summary>
+    public partial class EventEditorView : Window
+    {
+        public EventEditorView(EventEditorViewModel vm)
+        {
+            InitializeComponent();
+            DataContext = vm;
+        }
+    }
 }
