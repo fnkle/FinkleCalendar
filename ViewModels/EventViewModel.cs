@@ -1,4 +1,5 @@
 ﻿using CalendarApp.Models;
+using CalendarApp.Utilies;
 using CalendarApp.Views;
 using System;
 using System.Collections.Generic;
@@ -10,15 +11,17 @@ namespace CalendarApp.ViewModels
 {
     public class EventViewModel : BaseViewModel
     {
+        private readonly IWindowService _windowService;
         private CalendarEvent _calendarEvent;
         private string _title;
         private string _description;
         private DateTime _startTime;
         private DateTime _endTime;
 
-        public EventViewModel(CalendarEvent calendarEvent)
+        public EventViewModel(CalendarEvent calendarEvent, IWindowService windowService)
         {
             _calendarEvent = calendarEvent;
+            _windowService = windowService;
             _title = _calendarEvent.Title;
             _description = _calendarEvent.Description;
             _startTime = _calendarEvent.StartTime;
@@ -73,12 +76,13 @@ namespace CalendarApp.ViewModels
             }
         }
 
+        public AppCommand EventClickedCommand => new AppCommand(() => CalendarEventClicked(this));
+
         public CalendarEvent CalendarEvent { get => _calendarEvent; }
 
-        public void CalendarEventClicked(EventViewModel sender, MouseButtonEventArgs e)
+        private void CalendarEventClicked(EventViewModel sender)
         {
-            var view = new EventEditorView(new EventEditorViewModel(sender));
-            view.Show();
+            _windowService.ShowEditorWindow(sender);
         }
     }
 }

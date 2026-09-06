@@ -8,44 +8,45 @@ using System.Windows;
 
 namespace CalendarApp
 {
-	/// <summary>
-	/// Interaction logic for App.xaml
-	/// </summary>
-	public partial class App : Application
-	{
-		public App()
-		{
-			AppHost = Host.CreateDefaultBuilder().ConfigureServices((context, services) =>
-			{
-				services.AddSingleton<ICalendarEventRepository, CalendarEventRepository>();
+    /// <summary>
+    /// Interaction logic for App.xaml
+    /// </summary>
+    public partial class App : Application
+    {
+        public App()
+        {
+            AppHost = Host.CreateDefaultBuilder().ConfigureServices((context, services) =>
+            {
+                services.AddSingleton<ICalendarEventRepository, CalendarEventRepository>();
+                services.AddSingleton<IWindowService, WindowService>();
 
-				services.AddSingleton<MainWindowViewModel>();
-				services.AddScoped<EventEditorViewModel>();
+                services.AddSingleton<MainWindowViewModel>();
+                services.AddScoped<EventEditorViewModel>();
 
-				services.AddTransient<MainWindow>();
-			}).Build();
-		}
+                services.AddTransient<MainWindow>();
+            }).Build();
+        }
 
-		public static IHost AppHost { get; private set; }
+        public static IHost AppHost { get; private set; }
 
-		protected override async void OnStartup(StartupEventArgs e)
-		{
-			await AppHost!.StartAsync();
+        protected override async void OnStartup(StartupEventArgs e)
+        {
+            await AppHost!.StartAsync();
 
-			var mainWindow = AppHost.Services.GetRequiredService<MainWindow>();
-			mainWindow.Show();
+            var mainWindow = AppHost.Services.GetRequiredService<MainWindow>();
+            mainWindow.Show();
 
-			base.OnStartup(e);
-		}
+            base.OnStartup(e);
+        }
 
-		protected override async void OnExit(ExitEventArgs e)
-		{
-			using (AppHost)
-			{
-				await AppHost!.StopAsync();
-			}
+        protected override async void OnExit(ExitEventArgs e)
+        {
+            using (AppHost)
+            {
+                await AppHost!.StopAsync();
+            }
 
-			base.OnExit(e);
-		}
-	}
+            base.OnExit(e);
+        }
+    }
 }

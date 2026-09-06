@@ -13,7 +13,5 @@ namespace CalendarApp.Views
         {
             InitializeComponent();
         }
-
-        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e) => ((EventViewModel)DataContext).CalendarEventClicked((EventViewModel)DataContext, e);
     }
 }
