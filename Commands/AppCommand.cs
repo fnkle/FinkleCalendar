@@ -22,6 +22,8 @@ namespace CalendarApp
             _canExecute = canExecute;
         }
 
+        public event EventHandler? CanExecuteChanged;
+
         public bool CanExecute(object? parameter)
         {
             if (_canExecute == null || _execute == null)

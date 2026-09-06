@@ -26,5 +26,7 @@ namespace CalendarApp.Models
         public void AddEvent(CalendarEvent calendarEvent) => _events.Add(calendarEvent);
 
         public void RemoveEvent(CalendarEvent calendarEvent) => _events.Remove(calendarEvent);
+
+        public void AddRangeOfEvents(IEnumerable<CalendarEvent> calendarEvents) => _events.AddRange(calendarEvents);
     }
 }

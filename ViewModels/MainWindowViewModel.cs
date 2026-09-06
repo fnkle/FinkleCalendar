@@ -57,7 +57,7 @@ namespace CalendarApp
             {
                 var day = new Day(i + 1, _currentDate.Month, _currentDate.Year);
                 var events = eventsInMonth.Where(calendarEvent => calendarEvent.OnDay(i + 1, _currentDate.Month, _currentDate.Year)).ToList();
-                day.Events.AddRange(events);
+                day.AddRangeOfEvents(events);
                 var vm = new DayViewModel(day, _windowService);
                 vm.EventChanged += OnEventUpdated;
                 Cells.Add(vm);
