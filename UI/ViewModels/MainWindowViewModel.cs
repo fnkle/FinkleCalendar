@@ -21,7 +21,7 @@ namespace CalendarApp
         {
             _calendarEventRepository = calendarEventRepository;
             _windowService = windowService;
-            _windowService.EventUpdated += OnEventUpdated;
+            _calendarEventRepository.EventUpdated += OnEventUpdated;
             Update();
 
             NextMonthCommand = new AppCommand(NextMonth);

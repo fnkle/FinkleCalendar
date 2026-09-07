@@ -1,4 +1,5 @@
-﻿using CalendarApp.Models;
+﻿using CalendarApp.Events;
+using CalendarApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +8,8 @@ namespace CalendarApp.Utilies
 {
     public interface ICalendarEventRepository
     {
+        event EventHandler<EventUpdatedEventArgs> EventUpdated;
+
         void AddEvent(CalendarEvent calendarEvent);
 
         List<CalendarEvent> GetEventsInMonth(int month, int year);

@@ -1,11 +1,8 @@
-﻿using CalendarApp.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CalendarApp.Events
 {
-    public class EventUpdatedEventArgs
+    public class EventUpdatedEventArgs : EventArgs
     {
         public Guid EventId { get; set; }
         public string PropertyName { get; set; } = string.Empty;

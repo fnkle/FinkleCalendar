@@ -1,5 +1,4 @@
-﻿using CalendarApp.Events;
-using CalendarApp.Models;
+﻿using CalendarApp.Models;
 using CalendarApp.ViewModels;
 using CalendarApp.Views;
 using System;
@@ -12,7 +11,6 @@ namespace CalendarApp.Utilies
 {
     public class WindowService : IWindowService
     {
-        public event EventHandler<EventUpdatedEventArgs> EventUpdated;
         private readonly ICalendarEventRepository _eventRepo;
         private Dictionary<Guid, Window> _openWindows = new();
 
@@ -48,9 +46,6 @@ namespace CalendarApp.Utilies
                 window.Close();
                 _openWindows.Remove(e.EventId);
             }
-
-            if (e.DataSaved)
-                EventUpdated.Invoke(this, new EventUpdatedEventArgs { EventId = e.EventId });
         }
     }
 }

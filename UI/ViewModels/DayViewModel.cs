@@ -1,5 +1,4 @@
-﻿using CalendarApp.Events;
-using CalendarApp.Models;
+﻿using CalendarApp.Models;
 using CalendarApp.Utilies;
 using CalendarApp.Views;
 using System;
@@ -31,8 +30,6 @@ namespace CalendarApp.ViewModels
                 CalendarEvents.Add(eventVm);
             }
         }
-
-        public event EventHandler<EventUpdatedEventArgs> EventChanged;
 
         public event EventHandler<EventEditRequestArgs> EventEditRequest;
 

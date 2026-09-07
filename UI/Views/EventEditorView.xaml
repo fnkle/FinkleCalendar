@@ -24,13 +24,13 @@
 		<TextBlock TextWrapping="Wrap" Text="Start Time" Grid.Row="2" Grid.Column="0" Margin="5" />
 		<TextBlock TextWrapping="Wrap" Text="End Time" Grid.Row="3" Grid.Column="0" Margin="5" />
 
-		<TextBox TextWrapping="Wrap" Text="{Binding Title}" Grid.Row="0" Grid.Column="1" Margin="0, 0, 5, 20" BorderBrush="Black" />
-		<TextBox TextWrapping="Wrap" Text="{Binding Description}" Grid.Row="1" Grid.Column="1" Margin="0, 0, 5, 20" BorderBrush="Black" />
+		<TextBox TextWrapping="Wrap" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" Margin="0, 0, 5, 20" BorderBrush="Black" />
+		<TextBox TextWrapping="Wrap" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="0, 0, 5, 20" BorderBrush="Black" />
 		<xctk:DateTimePicker Grid.Row="2" Value="{Binding StartTime}" Grid.Column="1" Margin="0, 0, 5, 20"></xctk:DateTimePicker>
 		<xctk:DateTimePicker Grid.Row="3" Value="{Binding EndTime}" Grid.Column="1" Margin="0, 0, 5, 20"></xctk:DateTimePicker>
 
 		<StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-			<Button Content="Save" Command="{Binding SaveCommand}" Margin="0, 0, 5, 0" />
+			<Button Content="Save" IsEnabled="{Binding AnyUnsavedData}" Command="{Binding SaveCommand}" Margin="0, 0, 5, 0" />
 			<Button Content="Cancel" Command="{Binding CancelCommand}" />
 		</StackPanel>
 	</Grid>

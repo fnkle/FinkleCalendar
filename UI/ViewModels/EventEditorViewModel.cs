@@ -16,8 +16,6 @@ namespace CalendarApp.ViewModels
         private DateTime _startTime;
         private DateTime _endTime;
 
-        private bool _unsavedData;
-
         public EventEditorViewModel(CalendarEvent calendarEvent)
         {
             _calendarEvent = calendarEvent;
@@ -33,11 +31,17 @@ namespace CalendarApp.ViewModels
         public event EventHandler<CloseWindowRequest> CloseWindow;
 
         public string Title { get => _title; set => SetProperty(ref _title, value); }
+
         public string Description { get => _description; set => SetProperty(ref _description, value); }
+
         public DateTime StartTime { get => _startTime; set => SetProperty(ref _startTime, value); }
+
         public DateTime EndTime { get => _endTime; set => SetProperty(ref _endTime, value); }
 
+        public bool AnyUnsavedData => IsUnsavedData();
+
         public AppCommand SaveCommand { get; }
+
         public AppCommand CancelCommand { get; }
 
         internal void SaveChanges()
@@ -48,6 +52,23 @@ namespace CalendarApp.ViewModels
             _calendarEvent.EndTime = _endTime;
 
             CloseWindow.Invoke(this, new CloseWindowRequest { DataSaved = true, EventId = _calendarEvent.Id });
+        }
+
+        protected override bool SetProperty<T>(ref T field, T value, [System.Runtime.CompilerServices.CallerMemberName] string? propertyName = null)
+        {
+            var result = base.SetProperty(ref field, value, propertyName);
+            if (result)
+                OnPropertyChanged(nameof(AnyUnsavedData));
+
+            return result;
+        }
+
+        private bool IsUnsavedData()
+        {
+            return _title != _calendarEvent.Title ||
+                   _description != _calendarEvent.Description ||
+                   _startTime != _calendarEvent.StartTime ||
+                   _endTime != _calendarEvent.EndTime;
         }
 
         // todo : add a check for unsaved data and prompt user to save changes before closing the window

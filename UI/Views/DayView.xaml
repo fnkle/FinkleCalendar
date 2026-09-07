@@ -6,13 +6,13 @@
              xmlns:local="clr-namespace:CalendarApp.Views"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-	<Border BorderBrush="Black" BorderThickness="2" Padding="2">
+	<Border BorderBrush="SlateGray" BorderThickness="0.5" >
 		<Grid>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="9*" />
 			</Grid.RowDefinitions>
-			<TextBlock Text="{Binding DayNumber}" Foreground="Black" Grid.Row="0" />
+			<TextBlock Text="{Binding DayNumber}"  Grid.Row="0" />
 			<ItemsControl ItemsSource="{Binding CalendarEvents}" Grid.Row="1">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
