@@ -17,14 +17,14 @@ namespace CalendarApp.ViewModels
 {
     public class DayViewModel : BaseViewModel
     {
-        private Day _day;
+        private readonly string _dayNumber;
 
-        public DayViewModel(Day day)
+        public DayViewModel(List<CalendarEvent> events, int dayNumber)
         {
-            _day = day;
             CalendarEvents = new ObservableCollection<EventViewModel>();
+            _dayNumber = dayNumber.ToString();
 
-            foreach (var calendarEvent in _day.Events)
+            foreach (var calendarEvent in events)
             {
                 var eventVm = new EventViewModel(calendarEvent);
                 eventVm.EventClicked += (s, e) => EventEditRequest?.Invoke(this, new EventEditRequestArgs { EventId = e.EventId });
@@ -38,8 +38,6 @@ namespace CalendarApp.ViewModels
 
         public ObservableCollection<EventViewModel> CalendarEvents { get; set; }
 
-        public string DayNumber => _day.DayNumber.ToString();
-
-        public Day Day => _day;
+        public string DayNumber => _dayNumber;
     }
 }
