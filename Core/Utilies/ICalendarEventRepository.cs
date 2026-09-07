@@ -17,5 +17,7 @@ namespace CalendarApp.Utilies
         List<CalendarEvent> GetEventsOnDay(int day, int month, int year);
 
         CalendarEvent? GetEvent(Guid eventId);
+
+        List<CalendarEvent> GetAllEvents();
     }
 }

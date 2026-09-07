@@ -1,5 +1,6 @@
 ﻿using CalendarApp.Events;
 using CalendarApp.Models;
+using Core.Persistence;
 
 namespace CalendarApp.Utilies
 {
@@ -7,12 +8,17 @@ namespace CalendarApp.Utilies
     {
         private Dictionary<Guid, CalendarEvent> _events = new Dictionary<Guid, CalendarEvent>();
 
-        public CalendarEventRepository()
+        public CalendarEventRepository(ICalendarEventPersister persister)
         {
-            var calendarEvent = new CalendarEvent(DateTime.Now, DateTime.Now.AddDays(3));
-            calendarEvent.Title = "test";
+            persister.LoadEvents().ForEach(AddEvent);
 
-            AddEvent(calendarEvent);
+            if (_events.Count == 0)
+            {
+                var calendarEvent = new CalendarEvent(DateTime.Now, DateTime.Now.AddDays(3));
+                calendarEvent.Title = "test";
+
+                AddEvent(calendarEvent);
+            }
         }
 
         public event EventHandler<EventUpdatedEventArgs>? EventUpdated;
@@ -27,6 +33,8 @@ namespace CalendarApp.Utilies
             _events[calendarEvent.Id] = calendarEvent;
             calendarEvent.PropertyChanged += OnEventPropertyChanged;
         }
+
+        public List<CalendarEvent> GetAllEvents() => _events.Values.ToList();
 
         public CalendarEvent? GetEvent(Guid eventId)
         {

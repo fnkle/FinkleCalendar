@@ -1,5 +1,6 @@
 ﻿using CalendarApp.Utilies;
 using CalendarApp.ViewModels;
+using Core.Persistence;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Configuration;
@@ -19,6 +20,7 @@ namespace CalendarApp
             {
                 services.AddSingleton<ICalendarEventRepository, CalendarEventRepository>();
                 services.AddSingleton<IWindowService, WindowService>();
+                services.AddSingleton<ICalendarEventPersister, CalendarEventPersister>();
 
                 services.AddSingleton<MainWindowViewModel>();
 
@@ -42,6 +44,9 @@ namespace CalendarApp
         {
             using (AppHost)
             {
+                var persistentDataService = AppHost.Services.GetRequiredService<ICalendarEventPersister>();
+                var eventRepository = AppHost.Services.GetRequiredService<ICalendarEventRepository>();
+                persistentDataService.SaveEvents(eventRepository.GetAllEvents());
                 await AppHost!.StopAsync();
             }
 
