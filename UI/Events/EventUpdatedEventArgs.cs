@@ -7,7 +7,7 @@ namespace CalendarApp.Events
 {
     public class EventUpdatedEventArgs
     {
-        public EventViewModel Event { get; set; }
+        public Guid EventId { get; set; }
         public string PropertyName { get; set; } = string.Empty;
     }
 }

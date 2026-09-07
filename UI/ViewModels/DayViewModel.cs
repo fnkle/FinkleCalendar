@@ -11,45 +11,35 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using UI.Events;
 
 namespace CalendarApp.ViewModels
 {
     public class DayViewModel : BaseViewModel
     {
         private Day _day;
-        private IWindowService _windowService;
 
-        public DayViewModel(Day day, IWindowService windowService)
+        public DayViewModel(Day day)
         {
             _day = day;
-            _windowService = windowService;
             CalendarEvents = new ObservableCollection<EventViewModel>();
 
             foreach (var calendarEvent in _day.Events)
             {
-                var eventVm = new EventViewModel(calendarEvent, _windowService);
-                eventVm.PropertyChanged += OnEventUpdated;
+                var eventVm = new EventViewModel(calendarEvent);
+                eventVm.EventClicked += (s, e) => EventEditRequest?.Invoke(this, new EventEditRequestArgs { EventId = e.EventId });
                 CalendarEvents.Add(eventVm);
             }
         }
 
         public event EventHandler<EventUpdatedEventArgs> EventChanged;
 
+        public event EventHandler<EventEditRequestArgs> EventEditRequest;
+
         public ObservableCollection<EventViewModel> CalendarEvents { get; set; }
 
         public string DayNumber => _day.DayNumber.ToString();
 
         public Day Day => _day;
-
-        private void OnEventUpdated(object? sender, PropertyChangedEventArgs e)
-        {
-            if (!(sender is EventViewModel eventVm))
-                return;
-
-            if (e.PropertyName == nameof(EventViewModel.StartTime) || e.PropertyName == nameof(EventViewModel.EndTime))
-            {
-                EventChanged.Invoke(eventVm, new EventUpdatedEventArgs { Event = eventVm, PropertyName = e.PropertyName });
-            }
-        }
     }
 }

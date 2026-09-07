@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Navigation;
+using UI.Events;
 
 namespace CalendarApp
 {
@@ -20,6 +21,7 @@ namespace CalendarApp
         {
             _calendarEventRepository = calendarEventRepository;
             _windowService = windowService;
+            _windowService.EventUpdated += OnEventUpdated;
             Update();
 
             NextMonthCommand = new AppCommand(NextMonth);
@@ -49,7 +51,7 @@ namespace CalendarApp
 
         private void Update()
         {
-            ClearCells();
+            Cells.Clear();
             var numDays = DateTime.DaysInMonth(_currentDate.Year, _currentDate.Month);
 
             var eventsInMonth = _calendarEventRepository.GetEventsInMonth(_currentDate.Month, _currentDate.Year);
@@ -58,37 +60,19 @@ namespace CalendarApp
                 var day = new Day(i + 1, _currentDate.Month, _currentDate.Year);
                 var events = eventsInMonth.Where(calendarEvent => calendarEvent.OnDay(i + 1, _currentDate.Month, _currentDate.Year)).ToList();
                 day.AddRangeOfEvents(events);
-                var vm = new DayViewModel(day, _windowService);
-                vm.EventChanged += OnEventUpdated;
+                var vm = new DayViewModel(day);
+                vm.EventEditRequest += OnEventEditRequested;
                 Cells.Add(vm);
             }
 
             OnPropertyChanged(nameof(CurrentMonthYear));
         }
 
-        private void ClearCells()
-        {
-            foreach (var cell in Cells)
-            {
-                cell.EventChanged -= OnEventUpdated;
-            }
-            Cells.Clear();
-        }
+        private void OnEventEditRequested(object? sender, EventEditRequestArgs e) => _windowService.RequestEditWindow(e.EventId);
 
         private void OnEventUpdated(object? sender, EventUpdatedEventArgs e)
         {
-            var eventVm = e.Event;
-            var calendarEvent = eventVm.CalendarEvent;
-            switch (e.PropertyName)
-            {
-                case nameof(EventViewModel.EndTime):
-                case nameof(EventViewModel.StartTime):
-                    Update();
-                    return;
-
-                default:
-                    throw new InvalidOperationException("Property not handled in mainwindow");
-            }
+            Update();
         }
     }
 }

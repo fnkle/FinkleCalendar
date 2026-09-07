@@ -6,29 +6,30 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using UI.Events;
 
 namespace CalendarApp.ViewModels
 {
     public class EventViewModel : BaseViewModel
     {
-        private readonly IWindowService _windowService;
         private CalendarEvent _calendarEvent;
         private string _title;
         private string _description;
         private DateTime _startTime;
         private DateTime _endTime;
 
-        public EventViewModel(CalendarEvent calendarEvent, IWindowService windowService)
+        public EventViewModel(CalendarEvent calendarEvent)
         {
             _calendarEvent = calendarEvent;
-            _windowService = windowService;
             _title = _calendarEvent.Title;
             _description = _calendarEvent.Description;
             _startTime = _calendarEvent.StartTime;
             _endTime = _calendarEvent.EndTime;
 
-            EventClickedCommand = new AppCommand(() => CalendarEventClicked(this));
+            EventClickedCommand = new AppCommand(() => EventClicked?.Invoke(this, new EventEditRequestArgs { EventId = _calendarEvent.Id }));
         }
+
+        public event EventHandler<EventEditRequestArgs> EventClicked;
 
         public string Title
         {
@@ -81,10 +82,5 @@ namespace CalendarApp.ViewModels
         public AppCommand EventClickedCommand { get; }
 
         public CalendarEvent CalendarEvent { get => _calendarEvent; }
-
-        private void CalendarEventClicked(EventViewModel sender)
-        {
-            _windowService.ShowEditorWindow(sender);
-        }
     }
 }

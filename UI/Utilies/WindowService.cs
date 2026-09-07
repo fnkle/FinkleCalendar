@@ -1,31 +1,56 @@
-﻿using CalendarApp.Models;
+﻿using CalendarApp.Events;
+using CalendarApp.Models;
 using CalendarApp.ViewModels;
 using CalendarApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
+using UI.Events;
 
 namespace CalendarApp.Utilies
 {
     public class WindowService : IWindowService
     {
-        private Dictionary<EventViewModel, Window> _openWindows = new();
+        public event EventHandler<EventUpdatedEventArgs> EventUpdated;
+        private readonly ICalendarEventRepository _eventRepo;
+        private Dictionary<Guid, Window> _openWindows = new();
 
-        public void CloseEditorWindow(EventViewModel eventViewModel)
+        public WindowService(ICalendarEventRepository eventRepo)
         {
-            if (_openWindows.TryGetValue(eventViewModel, out Window? window))
+            _eventRepo = eventRepo;
+        }
+
+        public void RequestEditWindow(Guid eventId)
+        {
+            var calendarEvent = _eventRepo.GetEvent(eventId);
+            if (calendarEvent != null)
             {
-                window.Close();
-                _openWindows.Remove(eventViewModel);
+                ShowEditorWindow(calendarEvent);
             }
         }
 
-        public void ShowEditorWindow(EventViewModel eventVm)
+        private void ShowEditorWindow(CalendarEvent calendarEvent)
         {
-            var view = new EventEditorView(new EventEditorViewModel(eventVm, this));
-            _openWindows[eventVm] = view;
+            var vm = new EventEditorViewModel(calendarEvent);
+            vm.CloseWindow += OnCloseWindow;
+            var view = new EventEditorView(vm);
+            _openWindows[calendarEvent.Id] = view;
             view.Show();
+        }
+
+        private void OnCloseWindow(object? sender, CloseWindowRequest e)
+        {
+            var window = _openWindows[e.EventId];
+
+            if (window != null)
+            {
+                window.Close();
+                _openWindows.Remove(e.EventId);
+            }
+
+            if (e.DataSaved)
+                EventUpdated.Invoke(this, new EventUpdatedEventArgs { EventId = e.EventId });
         }
     }
 }

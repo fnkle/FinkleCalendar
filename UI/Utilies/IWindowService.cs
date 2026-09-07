@@ -1,3 +1,4 @@
+using CalendarApp.Events;
 using CalendarApp.Models;
 using CalendarApp.ViewModels;
 
@@ -5,8 +6,8 @@ namespace CalendarApp.Utilies
 {
     public interface IWindowService
     {
-        void CloseEditorWindow(EventViewModel eventViewModel);
+        event EventHandler<EventUpdatedEventArgs> EventUpdated;
 
-        void ShowEditorWindow(EventViewModel calendarEvent);
+        public void RequestEditWindow(Guid eventId);
     }
 }

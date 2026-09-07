@@ -1,15 +1,16 @@
-﻿using CalendarApp.Models;
+﻿using CalendarApp.Events;
+using CalendarApp.Models;
 using CalendarApp.Utilies;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UI.Events;
 
 namespace CalendarApp.ViewModels
 {
     public class EventEditorViewModel : BaseViewModel
     {
-        private readonly IWindowService _windowService;
-        private EventViewModel _eventViewModel;
+        private readonly CalendarEvent _calendarEvent;
         private string _title;
         private string _description;
         private DateTime _startTime;
@@ -17,18 +18,19 @@ namespace CalendarApp.ViewModels
 
         private bool _unsavedData;
 
-        public EventEditorViewModel(EventViewModel vm, IWindowService windowService)
+        public EventEditorViewModel(CalendarEvent calendarEvent)
         {
-            _eventViewModel = vm;
-            _windowService = windowService;
-            _title = _eventViewModel.Title;
-            _description = _eventViewModel.Description;
-            _startTime = _eventViewModel.StartTime;
-            _endTime = _eventViewModel.EndTime;
+            _calendarEvent = calendarEvent;
+            _title = _calendarEvent.Title;
+            _description = _calendarEvent.Description;
+            _startTime = _calendarEvent.StartTime;
+            _endTime = _calendarEvent.EndTime;
 
             SaveCommand = new AppCommand(SaveChanges);
             CancelCommand = new AppCommand(Cancel);
         }
+
+        public event EventHandler<CloseWindowRequest> CloseWindow;
 
         public string Title { get => _title; set => SetProperty(ref _title, value); }
         public string Description { get => _description; set => SetProperty(ref _description, value); }
@@ -40,13 +42,15 @@ namespace CalendarApp.ViewModels
 
         internal void SaveChanges()
         {
-            _eventViewModel.Title = _title;
-            _eventViewModel.Description = _description;
-            _eventViewModel.StartTime = _startTime;
-            _eventViewModel.EndTime = _endTime;
+            _calendarEvent.Title = _title;
+            _calendarEvent.Description = _description;
+            _calendarEvent.StartTime = _startTime;
+            _calendarEvent.EndTime = _endTime;
+
+            CloseWindow.Invoke(this, new CloseWindowRequest { DataSaved = true, EventId = _calendarEvent.Id });
         }
 
         // todo : add a check for unsaved data and prompt user to save changes before closing the window
-        private void Cancel() => _windowService.CloseEditorWindow(_eventViewModel);
+        private void Cancel() => CloseWindow.Invoke(this, new CloseWindowRequest { DataSaved = false, EventId = _calendarEvent.Id });
     }
 }
