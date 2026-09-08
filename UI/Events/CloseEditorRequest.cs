@@ -1,13 +1,14 @@
-﻿using System;
+﻿using CalendarApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace UI.Events
 {
-    public class CloseWindowRequest
+    public class CloseEditorRequest
     {
         public bool DataSaved;
 
-        public Guid EventId;
+        public CalendarEvent Event;
     }
 }

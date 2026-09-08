@@ -5,6 +5,6 @@ namespace CalendarApp.Utilies
 {
     public interface IWindowService
     {
-        public void RequestEditWindow(Guid eventId);
+        public void RequestEditWindow(Guid eventId, DateTime dateTime);
     }
 }

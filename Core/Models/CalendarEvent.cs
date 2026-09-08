@@ -77,11 +77,6 @@ namespace CalendarApp.Models
 
             field = value;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-            if (propertyName is nameof(StartTime) or nameof(EndTime))
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Duration)));
-            }
         }
     }
 }

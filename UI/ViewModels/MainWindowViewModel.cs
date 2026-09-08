@@ -2,6 +2,7 @@
 using CalendarApp.Models;
 using CalendarApp.Utilies;
 using CalendarApp.ViewModels;
+using Core.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +23,7 @@ namespace CalendarApp
             _calendarEventRepository = calendarEventRepository;
             _windowService = windowService;
             _calendarEventRepository.EventUpdated += OnEventUpdated;
+            _calendarEventRepository.EventAdded += OnEventAdded;
             Update();
 
             NextMonthCommand = new AppCommand(NextMonth);
@@ -29,6 +31,7 @@ namespace CalendarApp
         }
 
         public ObservableCollection<DayViewModel> Cells { get; } = new ObservableCollection<DayViewModel>();
+
         public String CurrentMonthYear => _currentDate.ToString("MMMM yyyy");
 
         public AppCommand NextMonthCommand { get; }
@@ -66,9 +69,14 @@ namespace CalendarApp
             OnPropertyChanged(nameof(CurrentMonthYear));
         }
 
-        private void OnEventEditRequested(object? sender, EventEditRequestArgs e) => _windowService.RequestEditWindow(e.EventId);
+        private void OnEventEditRequested(object? sender, EventEditRequestArgs e) => _windowService.RequestEditWindow(e.EventId, new DateTime(day: e.Day, month: _currentDate.Month, year: _currentDate.Year, hour: 0, minute: 0, second: 0));
 
         private void OnEventUpdated(object? sender, EventUpdatedEventArgs e)
+        {
+            Update();
+        }
+
+        private void OnEventAdded(object? sender, NewEventCreatedEventArgs e)
         {
             Update();
         }

@@ -6,7 +6,12 @@
              xmlns:local="clr-namespace:CalendarApp.Views"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-	<Border BorderBrush="SlateGray" BorderThickness="0.5" >
+	<Border BorderBrush="SlateGray" BorderThickness="0.5">
+		<Border.ContextMenu>
+			<ContextMenu>
+				<MenuItem Header="Add Event" Command="{Binding AddEventCommand}" />
+			</ContextMenu>
+		</Border.ContextMenu>
 		<Grid>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />

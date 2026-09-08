@@ -19,12 +19,15 @@ namespace CalendarApp.Utilies
             _eventRepo = eventRepo;
         }
 
-        public void RequestEditWindow(Guid eventId)
+        public void RequestEditWindow(Guid eventId, DateTime eventDate)
         {
-            var calendarEvent = _eventRepo.GetEvent(eventId);
-            if (calendarEvent != null)
+            if (_eventRepo.TryGetEvent(eventId, out CalendarEvent calendarEvent))
             {
                 ShowEditorWindow(calendarEvent);
+            }
+            else
+            {
+                ShowEditorWindow(new CalendarEvent(eventDate, eventDate));
             }
         }
 
@@ -37,15 +40,18 @@ namespace CalendarApp.Utilies
             view.Show();
         }
 
-        private void OnCloseWindow(object? sender, CloseWindowRequest e)
+        private void OnCloseWindow(object? sender, CloseEditorRequest e)
         {
-            var window = _openWindows[e.EventId];
+            var window = _openWindows[e.Event.Id];
 
             if (window != null)
             {
                 window.Close();
-                _openWindows.Remove(e.EventId);
+                _openWindows.Remove(e.Event.Id);
             }
+
+            if (!_eventRepo.ContainsEvent(e.Event.Id))
+                _eventRepo.AddEvent(e.Event);
         }
     }
 }

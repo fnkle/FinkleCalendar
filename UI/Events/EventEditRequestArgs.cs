@@ -7,5 +7,7 @@ namespace UI.Events
     public class EventEditRequestArgs
     {
         public Guid EventId { get; set; }
+
+        public int Day { get; set; }
     }
 }
